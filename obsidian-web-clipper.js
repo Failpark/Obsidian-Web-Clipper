@@ -11,16 +11,20 @@ javascript: Promise.all([import('https://unpkg.com/turndown@6.0.0?module'), impo
   const folder = "Clippings/";
 
   /* Optional tags  */
-  let tags = "clippings";
+  let tags = "  - clippings\n";
 
   /* Parse the site's meta keywords content into tags, if present */
   if (document.querySelector('meta[name="keywords" i]')) {
       var keywords = document.querySelector('meta[name="keywords" i]').getAttribute('content').split(',');
 
       keywords.forEach(function(keyword) {
-          let tag = ' ' + keyword.split(' ').join('');
+          let tag = '  - ' + keyword.split(' ').join('') + '\n';
           tags += tag;
       });
+  }
+
+  if (document.querySelectorAll('meta[name="article:tag" i]')) {
+        document.querySelectorAll('meta[name="article:tag" i]').forEach(node => tags += '  - ' + node.getAttribute('content') + '\n');
   }
 
   function getSelectionHtml() {
@@ -139,7 +143,8 @@ javascript: Promise.all([import('https://unpkg.com/turndown@6.0.0?module'), impo
       + 'clipped: ' + today + '\n'
       + 'published: ' + published + '\n' 
       + 'topics: \n'
-      + 'tags: [' + tags + ']\n'
+      + 'tags: \n' + tags
+      + 'read: false\n'
       + '---\n\n'
       + markdownBody ;
 
